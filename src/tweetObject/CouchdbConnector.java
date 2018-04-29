@@ -1,57 +1,42 @@
 package tweetObject;
 
 import java.util.List;
-import com.fourspaces.couchdb.Database;
-import com.fourspaces.couchdb.Document;
-import com.fourspaces.couchdb.Session;
-import com.fourspaces.couchdb.ViewResults;
- 
+
+import java.net.MalformedURLException;
+import org.ektorp.CouchDbConnector;  
+import org.ektorp.CouchDbInstance;
+import org.ektorp.ViewQuery;
+import org.ektorp.http.HttpClient;  
+import org.ektorp.http.StdHttpClient;  
+import org.ektorp.impl.StdCouchDbConnector;  
+import org.ektorp.impl.StdCouchDbInstance;  
+import org.ektorp.support.DesignDocument;
+
 public class CouchdbConnector {
- 
-	
-	Session dbSession = new Session("127.0.0.1", 5984,"Tom","sky13312999");
-	
-	// creat database
-	public void creatDatabase() {
 
-		String dbname = "employee";
-		dbSession.createDatabase(dbname);
-	}
-	
-	public void retriveDatabase()
-	{
-		List <String> listofdb = dbSession.getDatabaseNames();
-	}
-	
-	public void deleteDatabase()
-	{
 
-		String dbname = "employee";
-		dbSession.deleteDatabase(dbname);
-	}
-	public void putintoDatabase()
+	public void creatDatabase(CouchDbInstance dbInstance)
 	{
-		String dbname = "employee";
-		Database db = dbSession.getDatabase(dbname);
-		         
-		Document doc = new Document();
-		         
-		doc.setId("1");
-		doc.put("EmpNO", "1");
-		doc.put("Name", "Mike");
-		doc.put("Group", "J2EECOE");
-		doc.put("Designation", "Manager");
-		doc.put("Language", "Java");
-		         
-		db.saveDocument(doc);
-	
+		 //--------------- Creating database----------------------------//  
+		
+		 CouchDbConnector db = new StdCouchDbConnector("e", dbInstance);  
+		 
+		 db.createDatabaseIfNotExists();  
+		
 	}
+		
 	
-	HttpClient httpclient = new DefaultHttpClient();
-	 
-	HttpGet get = new HttpGet("http://localhost:5984/employee/_all_docs?startkey=%221%22&limit=5");
-	 
-	HttpResponse response = httpclient.execute(get);
+	public void creatDocument (CouchDbInstance dbInstance)
+	{
+		 //--------------- Creating Document----------------------------//  
+		CouchDbConnector db = dbInstance.createConnector("my_first_database", true); // will create a database if the database is now exit
+		// create a document inside the database
+		DesignDocument dd = new DesignDocument("light");  
+		db.create(dd);  
+		
+		
+	}  
 
 	
-}
+				 
+}	
