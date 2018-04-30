@@ -19,7 +19,7 @@ public class CouchdbConnector {
 	{
 		 //--------------- Creating database----------------------------//  
 		
-		 CouchDbConnector db = new StdCouchDbConnector("e", dbInstance);  
+		 CouchDbConnector db = new StdCouchDbConnector("abc", dbInstance);  
 		 
 		 db.createDatabaseIfNotExists();  
 		
@@ -35,7 +35,18 @@ public class CouchdbConnector {
 		db.create(dd);  
 		
 		
-	}  
+	} 
+	
+	public void getView(CouchDbInstance dbInstance)
+	{
+		CouchDbConnector db = dbInstance.createConnector("my_first_database", true); 
+		 ViewQuery query = new ViewQuery()
+			        .designDocId("_design/light")
+			        .viewName("example")
+			        .key("name");
+
+			//List<Sofa> redSofas = db.queryView(query, Sofa.class);
+	}
 
 	
 				 
