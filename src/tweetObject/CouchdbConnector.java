@@ -14,6 +14,7 @@ import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbConnector;  
 import org.ektorp.impl.StdCouchDbInstance;  
 import org.ektorp.support.DesignDocument;
+import org.ektorp.util.Base64.InputStream;
 
 public class CouchdbConnector {
 
@@ -65,11 +66,31 @@ public class CouchdbConnector {
 				}
 			}
 			while(run);
-			
+	}
  
+		public void readDate(CouchDbInstance dbInstance)
+		{
+			
+			
+			
+			
+				String id = ""+11;
+				StdCouchDbConnector db = new StdCouchDbConnector("my_first_database", dbInstance);
+				
+				
+					List ls = db.getAllDocIds();
+					for(int i = 0; i< ls.size();i++)
+					{
+						id = (String) ls.get(i);
+						Sofa doc = db.get(Sofa.class, id);
+						System.out.println(doc.getName());
+					}
+					
+					//java.io.InputStream olderRev = db.getAsStream(id);
 		
-		
-	} 
+		} 
+	
+	
 	
 	
 	

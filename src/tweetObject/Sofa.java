@@ -1,37 +1,33 @@
 package tweetObject;
 
+import org.ektorp.support.CouchDbDocument;
+import org.ektorp.support.TypeDiscriminator;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-@JsonIgnoreProperties({"id", "revision"})
-public class Sofa {
+@TypeDiscriminator("doc.type === 'EligibleCouple'")
 
-    @JsonProperty("_id")
-    private String id;
+public class Sofa extends CouchDbDocument {
 
-    @JsonProperty("_rev")
-    private String revision;
+        @JsonProperty
 
-    private String color;
+       private String name;
 
-    public void setId(String s) {
-        id = s;
-    }
+    public Sofa() {
 
-    public String getId() {
-        return id;
-    }
+     }
 
-    public String getRevision() {
-        return revision;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setColor(String s) {
-        color = s;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getColor() {
-        return color;
-    }
-}
+  
+
+
+   }
