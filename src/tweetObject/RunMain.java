@@ -13,14 +13,14 @@ public class RunMain {
 				 System.out.println("Tese");
 			   HttpClient httpClient = new StdHttpClient.Builder()  
 						 .url("http://localhost:5984")
-						 .username("tom")
+						 .username("admin")
 						 .password("123456789")
 						 .build();  
 			   
 				 CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient); 
-				 CouchdbConnector cc = new CouchdbConnector();
-				
-			
+				CouchdbConnector cc = new CouchdbConnector();
+				//cc.getView(dbInstance);
+				cc.insertData(dbInstance);
 		   }
 	}
 
