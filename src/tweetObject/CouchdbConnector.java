@@ -34,6 +34,7 @@ public class CouchdbConnector {
 	{
 		Scanner s = new Scanner(System.in);
 		String input;
+		String tweets;
 		Boolean run = true;
 		String q;
 		 //--------------- Creating Document----------------------------//  
@@ -43,23 +44,29 @@ public class CouchdbConnector {
 		//db.create(dd);  
 		StdCouchDbConnector db = new StdCouchDbConnector("my_first_database", dbInstance);
 		db.createDatabaseIfNotExists();
-		int a = 11;
+		int a = 13;
 		String getInfor;
 			do
 			{
-				HashMap<String, String> bysessionidView = new HashMap<String, String>();  
+				HashMap<String, String> bysessionidView = new HashMap<String, String>(); 
+				//using hasmap to insert the key and value to the database.
+				// all those system input should change to read  value from the previouse 
 				System.out.println("Record: " +a + "\nPlease enter customer name");
 				bysessionidView.put("_id", ""+a);
-				
-				input = s.next();
+				// the name of the user 
+				input = s.nextLine();
 				bysessionidView.put("name", input);	
+				// the tweet of the user's input
+				System.out.println("Please enter the Text");
+				tweets = s.nextLine();
+				bysessionidView.put("text", tweets);
 				
 				db.create(bysessionidView);
 				//db.get(Sofa.class, a);
 				System.out.println("The information have been insert: id -"+a +"\nName: " + input);
 				a++;
 				System.out.println("Press any to keep recording, and press 0 to exit" );
-				q = s.next();
+				q = s.nextLine();
 				if(q.equals("0"))
 				{
 					run = false;
@@ -82,8 +89,10 @@ public class CouchdbConnector {
 					for(int i = 0; i< ls.size();i++)
 					{
 						id = (String) ls.get(i);
-						Sofa doc = db.get(Sofa.class, id);
-						System.out.println(doc.getName());
+						tweet doc = db.get(tweet.class, id);
+						
+						System.out.println("Name: " + doc.getName() + "\nText: " + doc.getText());
+						
 					}
 					
 					//java.io.InputStream olderRev = db.getAsStream(id);

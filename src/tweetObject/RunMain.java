@@ -20,7 +20,7 @@ public class RunMain {
 				 CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient); 
 				CouchdbConnector cc = new CouchdbConnector();
 				//cc.getView(dbInstance);
-				//cc.insertData(dbInstance);
+				cc.insertData(dbInstance);
 				cc.readDate(dbInstance);
 		   }
 	}
