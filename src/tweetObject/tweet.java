@@ -16,44 +16,28 @@ public class tweet extends CouchDbDocument {
        @JsonProperty
        private String _rev;
        @JsonProperty
-       private  String name;
+       private  String user_name;
+       @JsonProperty
+       private  String user_id;
        @JsonProperty
        private  String text;
-     
-     
-       
-      
-       
-    public String getText() {
-		return text;
-	}
+       @JsonProperty
+       private  String tweet_create_time;
+       @JsonProperty
+       private  String x;
+       @JsonProperty
+       private  String y;
 
 
+       public tweet() 
+       {
 
+       }
 
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-
-
-
-
-	public tweet() {
-
-     }
-
-
-
-
-
+       //getter and setter
 	public String getId() {
 		return id;
 	}
-
-
-
 
 
 	public void setId(String id) {
@@ -61,15 +45,9 @@ public class tweet extends CouchDbDocument {
 	}
 
 
-
-
-
 	public String get_rev() {
 		return _rev;
 	}
-
-
-
 
 
 	public void set_rev(String _rev) {
@@ -77,21 +55,68 @@ public class tweet extends CouchDbDocument {
 	}
 
 
-
-
-
-	public String getName() {
-		return name;
+	public String getUser_name() {
+		return user_name;
 	}
 
 
-
-
-
-	public void setName(String name) {
-		this.name = name;
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 
-   
 
-   }
+	public String getUser_id() {
+		return user_id;
+	}
+
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+
+	public String getText() {
+		return text;
+	}
+
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+
+	public String getTweet_create_time() {
+		return tweet_create_time;
+	}
+
+
+	public void setTweet_create_time(String tweet_create_time) {
+		this.tweet_create_time = tweet_create_time;
+	}
+
+
+	public String getX() {
+		return x;
+	}
+
+
+	public void setX(String x) {
+		this.x = x;
+	}
+
+
+	public String getY() {
+		return y;
+	}
+
+
+	public void setY(String y) {
+		this.y = y;
+	}
+
+     
+       
+       
+       
+       
+	   }

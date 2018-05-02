@@ -44,7 +44,7 @@ public class CouchdbConnector {
 		//db.create(dd);  
 		StdCouchDbConnector db = new StdCouchDbConnector("my_first_database", dbInstance);
 		db.createDatabaseIfNotExists();
-		int a = 13;
+		int a = 14;
 		String getInfor;
 			do
 			{
@@ -55,12 +55,23 @@ public class CouchdbConnector {
 				bysessionidView.put("_id", ""+a);
 				// the name of the user 
 				input = s.nextLine();
-				bysessionidView.put("name", input);	
+				bysessionidView.put("user_name", input);	
 				// the tweet of the user's input
 				System.out.println("Please enter the Text");
 				tweets = s.nextLine();
 				bysessionidView.put("text", tweets);
+				String tweet_creat_time = "2018-6-13";
+				bysessionidView.put("tweet_create_time", tweet_creat_time);
 				
+				
+				System.out.println("Please input the X");
+				String x = s.nextLine();
+				bysessionidView.put("x", x);
+				System.out.println("Please input the Y");
+				String y = s.nextLine();
+				bysessionidView.put("y", y);
+				
+				// create the database with information listed above
 				db.create(bysessionidView);
 				//db.get(Sofa.class, a);
 				System.out.println("The information have been insert: id -"+a +"\nName: " + input);
@@ -91,7 +102,7 @@ public class CouchdbConnector {
 						id = (String) ls.get(i);
 						tweet doc = db.get(tweet.class, id);
 						
-						System.out.println("Name: " + doc.getName() + "\nText: " + doc.getText());
+						System.out.println("Name: " + doc.getUser_name() + "\nText: " + doc.getText());
 						
 					}
 					
