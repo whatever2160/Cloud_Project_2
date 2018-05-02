@@ -1,4 +1,4 @@
-package tweetObject;
+package main;
 
 /**
  * @author tomyu
