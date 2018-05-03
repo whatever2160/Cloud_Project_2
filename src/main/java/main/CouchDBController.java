@@ -98,7 +98,8 @@ public class CouchDBController {
 		List<String> docIds = db.getAllDocIds();
 		for (String id : docIds) {
 			Tweet tweet = db.get(Tweet.class, id);
-			tweet.setScore(Float.toString(SentimentAnalyser.scoreText(tweet.getText())));
+			//tweet.setScore(Float.toString(SentimentAnalyser.scoreText(tweet.getText())));
+            tweet.setScore(Integer.toString(TextSentimentAnalyzer.analyze(tweet.getText()).getScore()));
 			db.update(tweet);
 		}
 	}
