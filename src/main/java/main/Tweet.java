@@ -22,14 +22,15 @@ public class Tweet extends CouchDbDocument {
     @JsonProperty
     private String tweet_create_time;
     @JsonProperty
-    private String x;
+    private String coordinate_x;
     @JsonProperty
-    private String y;
+    private String coordinate_y;
     @JsonProperty
     private String score;
     @JsonProperty
     private String magnitude;
-
+	@JsonProperty
+	private String lang;
 
 
     public Tweet()
@@ -99,30 +100,34 @@ public class Tweet extends CouchDbDocument {
 
 
 	public String getX() {
-		return x;
+		return coordinate_x;
 	}
 
 
 	public void setX(String x) {
-		this.x = x;
+		this.coordinate_x = x;
 	}
 
 
 	public String getY() {
-		return y;
+		return coordinate_y;
 	}
 
 
 	public void setY(String y) {
-		this.y = y;
+		this.coordinate_y = y;
 	}
 
 	public String getScore() { return score; }
 
 	public void setScore(String score) { this.score = score; }
 
-	public String getMagnitude() { return magnitude; };
+	public String getMagnitude() { return magnitude; }
 
-    public void setMagnitude() { this.magnitude = magnitude; }
+    public void setMagnitude(String magnitude) { this.magnitude = magnitude; }
+
+    public String getLang() { return lang; }
+
+    public void setLang(String lang) { this.lang = lang; }
 
 }
