@@ -15,11 +15,18 @@ import java.util.Map;
 public class Suburb {
 
     private String MB_CODE11;
+    private String SA2_NAME11;
     private Polygon polygon;
 
     public Suburb(String MB_CODE11, Polygon polygon){
         this.MB_CODE11 = MB_CODE11;
         this.polygon = polygon;
+    }
+
+    public Suburb(String MB_CODE11, String SA2_NAME11, Polygon polygon) {
+        this.MB_CODE11 = MB_CODE11;
+        this.polygon = polygon;
+        this.SA2_NAME11 = SA2_NAME11;
     }
 
     public String getMB_CODE11() {
@@ -36,6 +43,14 @@ public class Suburb {
 
     public void setPolygon(Polygon polygon) {
         this.polygon = polygon;
+    }
+
+    public String getSA2_NAME11() {
+        return SA2_NAME11;
+    }
+
+    public void setSA2_NAME11(String SA2_NAME11) {
+        this.SA2_NAME11 = SA2_NAME11;
     }
 
     public boolean isInPolygon(Point point) {

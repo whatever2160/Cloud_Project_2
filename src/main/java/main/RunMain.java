@@ -16,27 +16,33 @@ import java.util.List;
 public class RunMain {
 	public static void main(String[] args) throws Exception {
 
-
+        /*
+         * Create the suburb polygons
+         */
         URI MELGEOMRI = AFINNWords.class.getResource("/MelbGeo.geojson").toURI();
         Path path = Paths.get(MELGEOMRI);
         InputStream inputStream = new FileInputStream(path.toFile());
         List<Suburb> suburbs = GeoParser.createSuburb(inputStream);
+
+        /*
+         * Connect to the CouchDB
+         */
 		HttpClient httpClient = new StdHttpClient.Builder()
-				.url("http://localhost:5984")
+				.url("http://115.146.93.244:5984")
 				.username("admin")
-				.password("123456789")
+				.password("admin")
 				.build();
-
 		CouchDbConnector db = CouchDBController
-                .creatConnection(httpClient, "my_first_database");
+                .creatConnection(httpClient, "twitter_data");
 
-       // CouchDBController.insertData(db);
-		//CouchDBController.readRawStream(db);
+		/*
+		 * Process the tweets
+		 */
+//        CouchDBController.insertData(db);
+//        CouchDBController.readRawStream(db);
         CouchDBController.judgeSuburb(db,suburbs);
-
-		//CouchDBController.readTweet(db);
-
-//		CouchDBController.addScore(db);
+//        CouchDBController.readTweet(db);
+//		  CouchDBController.addScore(db);
 
 	}
 }

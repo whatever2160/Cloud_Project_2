@@ -24,7 +24,8 @@ public class GeoParser {
         for (JSONObject feature : features) {
             String MB_CODE11 = getSuburbCode(feature);
             Polygon polygon = getPolygon(feature);
-            Suburb suburb = new Suburb(MB_CODE11, polygon);
+            String SA2_NAME11 = getSuburbName(feature);
+            Suburb suburb = new Suburb(MB_CODE11, SA2_NAME11, polygon);
             suburbs.add(suburb);
         }
         return suburbs;
@@ -40,6 +41,11 @@ public class GeoParser {
     public static String getSuburbCode(JSONObject feature) {
         JSONObject properties = (JSONObject) feature.get("properties");
         return (String) properties.get("MB_CODE11");
+    }
+
+    public static String getSuburbName(JSONObject feature) {
+        JSONObject properties  = (JSONObject) feature.get("properties");
+        return (String) properties.get("SA2_NAME11");
     }
 
     public static List<List<Double>> getCoordinates(JSONObject feature) {

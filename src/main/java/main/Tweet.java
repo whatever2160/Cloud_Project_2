@@ -9,18 +9,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @TypeDiscriminator("doc.type === 'EligibleCouple'")
 
 public class Tweet extends CouchDbDocument {
-//	@JsonProperty("_id")
-//   	private String id;
-//   	@JsonProperty
-//    private String _rev;
-   	@JsonProperty
-    private String user_name;
+
     @JsonProperty
-    private String user_id;
+    private String content;
     @JsonProperty
-    private String text;
-    @JsonProperty
-    private String tweet_create_time;
+    private String timestamp;
     @JsonProperty
     private String coordinate_x;
     @JsonProperty
@@ -30,92 +23,47 @@ public class Tweet extends CouchDbDocument {
     @JsonProperty
     private String magnitude;
 	@JsonProperty
-	private String lang;
-
+	private String language;
+	@JsonProperty
+	private String sa2_name11;
+	@JsonProperty
+	private String mb_code11;
 
     public Tweet()
     {
 
     }
 
-       //getter and setter
-//	public String getId() {
-//		return id;
-//	}
-//
-//
-//	public void setId(String id) {
-//		this.id = id;
-//	}
-//
-//
-//	public String get_rev() {
-//		return _rev;
-//	}
-//
-//
-//	public void set_rev(String _rev) {
-//		this._rev = _rev;
-//	}
-
-
-	public String getUser_name() {
-		return user_name;
+	public String getContent() {
+		return content;
 	}
 
-
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-
-	public String getUser_id() {
-		return user_id;
+	public String getTimestamp() {
+		return timestamp;
 	}
 
-
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
 	}
 
-
-	public String getText() {
-		return text;
-	}
-
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-
-	public String getTweet_create_time() {
-		return tweet_create_time;
-	}
-
-
-	public void setTweet_create_time(String tweet_create_time) {
-		this.tweet_create_time = tweet_create_time;
-	}
-
-
-	public String getX() {
+	public String getCoordinate_x() {
 		return coordinate_x;
 	}
 
-
-	public void setX(String x) {
-		this.coordinate_x = x;
+	public void setCoordinate_x(String coordinate_x) {
+		this.coordinate_x = coordinate_x;
 	}
 
-
-	public String getY() {
+	public String getCoordinate_y() {
 		return coordinate_y;
 	}
 
-
-	public void setY(String y) {
-		this.coordinate_y = y;
+	public void setCoordinate_y(String coordinate_y) {
+		this.coordinate_y = coordinate_y;
 	}
 
 	public String getScore() { return score; }
@@ -126,8 +74,15 @@ public class Tweet extends CouchDbDocument {
 
     public void setMagnitude(String magnitude) { this.magnitude = magnitude; }
 
-    public String getLang() { return lang; }
+    public String getLanguage() { return language; }
 
-    public void setLang(String lang) { this.lang = lang; }
+    public void setLanguage(String lang) { this.language = language; }
 
+    public String getMb_code11() { return mb_code11; }
+
+    public void setMb_code11(String mb_code11) { this.mb_code11 = mb_code11; }
+
+    public String getSa2_name11() { return sa2_name11; }
+
+    public void setSa2_name11(String sa2_name11) { this.sa2_name11 = sa2_name11; }
 }

@@ -95,8 +95,8 @@ public class CouchDBController {
 		for(String id : ls)
 		{
 			Tweet doc = db.get(Tweet.class, id);
-			System.out.println("Name: " + doc.getUser_name() + "\nText: " + doc.getText());
-			SentimentAnalyser.scoreText(doc.getText());
+//			System.out.println("Name: " + doc.getUser_name() + "\nText: " + doc.getText());
+//			SentimentAnalyser.scoreText(doc.getText());
 		}
 	}
 
@@ -136,7 +136,7 @@ public class CouchDBController {
 		List<String> docIds = db.getAllDocIds();
 		for (String id : docIds) {
 			Tweet tweet = db.get(Tweet.class, id);
-			String text = tweet.getText();
+			String content = tweet.getContent();
 //			String lang = tweet.getLang();
 //			String language = Language.ENGLISH;
 //			if (lang != null && lang != "EN") {
@@ -150,7 +150,7 @@ public class CouchDBController {
 //			    text = translate(tweet.getText(), language);
 //            }
 			//tweet.setScore(Float.toString(SentimentAnalyser.scoreText(tweet.getText())));
-            tweet.setScore(Integer.toString(TextSentimentAnalyzer.analyze(text).getScore()));
+            tweet.setScore(Integer.toString(TextSentimentAnalyzer.analyze(content).getScore()));
 			db.update(tweet);
 		}
 	}
@@ -159,13 +159,16 @@ public class CouchDBController {
         List<String> docIds = db.getAllDocIds();
         for (String id : docIds) {
             Tweet tweet = db.get(Tweet.class, id);
-            Double coordinate_X = Double.parseDouble(tweet.getX());
-            Double coordinate_Y = Double.parseDouble(tweet.getY());
+            Double coordinate_X = Double.parseDouble(tweet.getCoordinate_x());
+            Double coordinate_Y = Double.parseDouble(tweet.getCoordinate_y());
             Point point = new Point(coordinate_X, coordinate_Y);
             for (Suburb suburb : suburbs) {
                 if (suburb.isInPolygon(point)) {
                     System.out.println("~~~~~");
-                    System.out.println(suburb.getMB_CODE11());
+                    System.out.println(suburb.getMB_CODE11() + " " + suburb.getSA2_NAME11());
+                    tweet.setMb_code11(suburb.getMB_CODE11());
+                    tweet.setSa2_name11(suburb.getSA2_NAME11());
+                    db.update(tweet);
                 }
             }
         }
