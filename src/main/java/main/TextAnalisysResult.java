@@ -18,6 +18,10 @@ public class TextAnalisysResult {
 		this.detectedWords = detectedWords;
 	}
 
+	public TextAnalisysResult(int score) {
+		this.score = score;
+	}
+
 	public String getText() {
 		return text;
 	}

@@ -1,5 +1,7 @@
 package main;
 
+import jdk.nashorn.internal.runtime.ECMAException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,17 +50,21 @@ public class TextSentimentAnalyzer {
 	}
 
 	public static TextAnalisysResult analyze(String text) {
-		Map<String, Integer> afinnWords = AFINNWords.get();
-		String words[] = text.split(WORD_SPLIT_REGEX);
-		AtomicInteger score = new AtomicInteger(0);
-		Map<String, Integer> detectedWords = Stream.of(words)
-				.filter(w -> afinnWords.containsKey(w))
-				.peek(w -> score.addAndGet(afinnWords.get(w)))
-				.collect(toMap(w -> w, afinnWords::get));
-		double comparative = 0;
-		if(words.length > 0) { 
-			comparative = new Double(score.get()) / new Double(words.length);
-		}
-		return new TextAnalisysResult(text, score.get(), comparative, detectedWords);
+		try {
+            Map<String, Integer> afinnWords = AFINNWords.get();
+            String words[] = text.split(WORD_SPLIT_REGEX);
+            AtomicInteger score = new AtomicInteger(0);
+            Map<String, Integer> detectedWords = Stream.of(words)
+                    .filter(w -> afinnWords.containsKey(w))
+                    .peek(w -> score.addAndGet(afinnWords.get(w)))
+                    .collect(toMap(w -> w, afinnWords::get));
+            double comparative = 0;
+            if (words.length > 0) {
+                comparative = new Double(score.get()) / new Double(words.length);
+            }
+            return new TextAnalisysResult(text, score.get(), comparative, detectedWords);
+        }catch (Exception e) {
+		    return new TextAnalisysResult(0);
+        }
 	}
 }

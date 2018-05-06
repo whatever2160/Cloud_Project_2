@@ -19,7 +19,7 @@ public class Tweet extends CouchDbDocument {
     @JsonProperty
     private String coordinate_y;
     @JsonProperty
-    private String score;
+    private String sentiment;
     @JsonProperty
     private String magnitude;
 	@JsonProperty
@@ -28,11 +28,27 @@ public class Tweet extends CouchDbDocument {
 	private String sa2_name11;
 	@JsonProperty
 	private String mb_code11;
+	@JsonProperty
+	private String tweet_id;
 
     public Tweet()
     {
 
     }
+
+    public Tweet(Tweet tweet) {
+    	this.content = tweet.getContent();
+    	this.timestamp = tweet.getTimestamp();
+    	this.coordinate_x = tweet.getCoordinate_x();
+    	this.coordinate_y = tweet.getCoordinate_y();
+		this.language = tweet.getLanguage();
+		if (tweet.getTweet_id() != null) {
+			this.tweet_id = getTweet_id();
+		}
+		this.sentiment = tweet.getSentiment();
+		this.sa2_name11 = tweet.getSa2_name11();
+		this.mb_code11 = tweet.getMb_code11();
+	}
 
 	public String getContent() {
 		return content;
@@ -66,9 +82,9 @@ public class Tweet extends CouchDbDocument {
 		this.coordinate_y = coordinate_y;
 	}
 
-	public String getScore() { return score; }
+	public String getSentiment() { return sentiment; }
 
-	public void setScore(String score) { this.score = score; }
+	public void setSentiment(String sentiment) { this.sentiment = sentiment; }
 
 	public String getMagnitude() { return magnitude; }
 
@@ -85,4 +101,8 @@ public class Tweet extends CouchDbDocument {
     public String getSa2_name11() { return sa2_name11; }
 
     public void setSa2_name11(String sa2_name11) { this.sa2_name11 = sa2_name11; }
+
+    public String getTweet_id() { return tweet_id; }
+
+    public void setTweet_id(String tweet_id) { this.tweet_id = tweet_id; }
 }
