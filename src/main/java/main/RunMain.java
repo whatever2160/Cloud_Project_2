@@ -70,8 +70,10 @@ public class RunMain {
      * Create the suburb polygons
      */
     public static List<Suburb> getSubburbs() throws Exception{
-        URI MELGEOURI = AFINNWords.class.getResource("/Melb_SA2.geojson").toURI();
-        Path path = Paths.get(MELGEOURI);
+//        URI MELGEOURI = RunMain.class.getResource("/Melb_SA2.geojson").toURI();
+//        System.out.println(MELGEOURI);
+        Path path = Paths
+                .get("/Users/yaozican/IdeaProjects/Cloud_Project_2/out/production/resources/Melb_SA2.geojson");
         InputStream inputStream = new FileInputStream(path.toFile());
         List<Suburb> suburbs = GeoParser.createSuburb(inputStream);
         return suburbs;
