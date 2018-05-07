@@ -8,33 +8,34 @@ import org.json.simple.parser.ParseException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Suburb {
+public class Suburb implements Serializable{
 
-    private String MB_CODE11;
+    private String SA2_CODE11;
     private String SA2_NAME11;
     private Polygon polygon;
 
     public Suburb(String MB_CODE11, Polygon polygon){
-        this.MB_CODE11 = MB_CODE11;
+        this.SA2_CODE11 = MB_CODE11;
         this.polygon = polygon;
     }
 
     public Suburb(String MB_CODE11, String SA2_NAME11, Polygon polygon) {
-        this.MB_CODE11 = MB_CODE11;
+        this.SA2_CODE11 = MB_CODE11;
         this.polygon = polygon;
         this.SA2_NAME11 = SA2_NAME11;
     }
 
     public String getMB_CODE11() {
-        return MB_CODE11;
+        return SA2_CODE11;
     }
 
     public void setMB_CODE11(String MB_CODE11) {
-        this.MB_CODE11 = MB_CODE11;
+        this.SA2_CODE11 = MB_CODE11;
     }
 
     public Polygon getPolygon() {

@@ -104,6 +104,21 @@ public class CouchDBController {
         }
     }
 
+    public static void processTweets_(
+            CouchDbConnector db1, List<Suburb> suburbs, CouchDbConnector db2, int rank, int size) throws Exception {
+        List<String> docIds = db1.getAllDocIds();
+        int count = 0;
+        for (String id : docIds) {
+            if (count % size == rank) {
+                Tweet tweet = db1.get(Tweet.class, id);
+                setSuburb(tweet, suburbs);
+                setSentiment(tweet);
+                Tweet updatedTweet = new Tweet(tweet);
+                db2.create(updatedTweet);
+            }
+            count++;
+        }
+    }
 
     public static void insertData (CouchDbConnector db)
     {

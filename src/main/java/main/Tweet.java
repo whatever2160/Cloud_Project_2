@@ -27,7 +27,7 @@ public class Tweet extends CouchDbDocument {
 	@JsonProperty
 	private String sa2_name11;
 	@JsonProperty
-	private String mb_code11;
+	private String sa2_code11;
 	@JsonProperty
 	private String tweet_id;
 
@@ -47,7 +47,7 @@ public class Tweet extends CouchDbDocument {
 		}
 		this.sentiment = tweet.getSentiment();
 		this.sa2_name11 = tweet.getSa2_name11();
-		this.mb_code11 = tweet.getMb_code11();
+		this.sa2_code11 = tweet.getMb_code11();
 	}
 
 	public String getContent() {
@@ -94,9 +94,9 @@ public class Tweet extends CouchDbDocument {
 
     public void setLanguage(String lang) { this.language = language; }
 
-    public String getMb_code11() { return mb_code11; }
+    public String getMb_code11() { return sa2_code11; }
 
-    public void setMb_code11(String mb_code11) { this.mb_code11 = mb_code11; }
+    public void setMb_code11(String mb_code11) { this.sa2_code11 = mb_code11; }
 
     public String getSa2_name11() { return sa2_name11; }
 
