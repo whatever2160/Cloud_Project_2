@@ -1,6 +1,7 @@
 package main;
 
 import com.snatik.polygon.Polygon;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
@@ -23,23 +24,28 @@ public class RunMain {
 	    long startTime = System.currentTimeMillis();
 	    int RANK = MPI.COMM_WORLD.Rank();
 	    int SIZE = MPI.COMM_WORLD.Size();
+        Boolean term = false;
+        while(!term) {
+            List<CouchDbConnector> dbs = connect();
+            List<Suburb> suburbs = getSuburbs();
 
-        List<CouchDbConnector> dbs = connect();
-        List<Suburb> suburbs = getSubburbs();
 
-        //Process the tweets in multi process
-        CouchDBController.processTweets_(dbs.get(0), suburbs, dbs.get(1), RANK, SIZE);
-
-        //single process
-        //CouchDBController.processTweets(dbs.get(0), suburbs, dbs.get(1));
+            //Process the tweets in multi process
+            CouchDBController.processTweets_(dbs.get(0), suburbs, dbs.get(1), RANK, SIZE);
+            CouchDBController.deDuplicate(dbs.get(1), RANK, SIZE);
+            //single process
+            //CouchDBController.processTweets(dbs.get(0), suburbs, dbs.get(1));
+        }
 
         /*
          * Timer: print out the processing time
+         * System.out.println("=====================================");
+         *
+         * long endTime = System.currentTimeMillis();
+         * float seconds = (endTime - startTime) / 1000F;
+         * System.out.println("Time: " + Float.toString(seconds) + " seconds.");
+         *
          */
-        System.out.println("=====================================");
-        long endTime = System.currentTimeMillis();
-        float seconds = (endTime - startTime) / 1000F;
-        System.out.println("Time: " + Float.toString(seconds) + " seconds.");
 
         MPI.Finalize();
     }
@@ -58,7 +64,7 @@ public class RunMain {
                 .creatConnection(httpClient, "melbourne_melbourne");
 
         CouchDbConnector db2 = CouchDBController
-                .creatConnection(httpClient, "processed_melbourne_tweets");
+                .creatConnection(httpClient, "processed_test");
 
         List<CouchDbConnector> dbs = new ArrayList<>();
         dbs.add(db);
@@ -69,7 +75,7 @@ public class RunMain {
     /*
      * Create the suburb polygons
      */
-    public static List<Suburb> getSubburbs() throws Exception{
+    public static List<Suburb> getSuburbs() throws Exception{
 //        URI MELGEOURI = RunMain.class.getResource("/Melb_SA2.geojson").toURI();
 //        System.out.println(MELGEOURI);
         Path path = Paths

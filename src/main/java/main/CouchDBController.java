@@ -4,21 +4,28 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.Buffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 import com.snatik.polygon.Point;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.ViewQuery;
 import org.ektorp.impl.StdCouchDbInstance;
 import org.ektorp.http.HttpClient;
-
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import com.gtranslate.*;
 
 public class CouchDBController {
+
+    static int LAST_POSITION = 0;
 
     // the database will be created if it doesn't exists
     public static CouchDbConnector creatConnection (HttpClient httpClient, String path) {
@@ -82,8 +89,8 @@ public class CouchDBController {
         for (Suburb suburb : suburbs) {
             if (suburb.isInPolygon(point)) {
                 System.out.println("~~~~~");
-                System.out.println(suburb.getMB_CODE11() + " " + suburb.getSA2_NAME11());
-                tweet.setMb_code11(suburb.getMB_CODE11());
+                System.out.println(suburb.getSA2_CODE11() + " " + suburb.getSA2_NAME11());
+                tweet.setSa2_code11(suburb.getSA2_CODE11());
                 tweet.setSa2_name11(suburb.getSA2_NAME11());
             }
         }
@@ -104,17 +111,65 @@ public class CouchDBController {
         }
     }
 
-    public static void processTweets_(
+    public static void processTweets_ (
             CouchDbConnector db1, List<Suburb> suburbs, CouchDbConnector db2, int rank, int size) throws Exception {
         List<String> docIds = db1.getAllDocIds();
+        int db1Size = docIds.size();
+        List<String> docIds_ = docIds.subList(LAST_POSITION, db1Size);
         int count = 0;
-        for (String id : docIds) {
+        for (String id : docIds_) {
             if (count % size == rank) {
-                Tweet tweet = db1.get(Tweet.class, id);
-                setSuburb(tweet, suburbs);
-                setSentiment(tweet);
-                Tweet updatedTweet = new Tweet(tweet);
-                db2.create(updatedTweet);
+                try {
+                    Tweet tweet = db1.get(Tweet.class, id);
+                    System.out.println(tweet.getTweet_id());
+                    setSuburb(tweet, suburbs);
+                    setSentiment(tweet);
+                    Tweet updatedTweet = new Tweet(tweet);
+                    db2.create(updatedTweet);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            count++;
+        }
+        LAST_POSITION = db1Size;
+    }
+
+    public static void deDuplicate (CouchDbConnector db, int rank, int size) throws Exception {
+        String charset = java.nio.charset.StandardCharsets.UTF_8.name();
+        String url_dupList
+                = "http://115.146.93.244:5984/processed_test/_design/dup/_list/mylist/count?group=true";
+        String url_dupKey
+                = "http://115.146.93.244:5984/processed_test/_design/dup/_view/count?reduce=false&";
+
+        URLConnection connection = new URL(url_dupList).openConnection();
+        connection.setRequestProperty("Accept-Charset", charset);
+        InputStream response = connection.getInputStream();
+        Scanner scanner = new Scanner(response);
+        String responseBody = scanner.useDelimiter("\\A").next();
+        responseBody = "{\"rows\": " + responseBody + "}";
+
+        JSONParser parser = new JSONParser();
+        JSONObject dupObject = (JSONObject) parser.parse(responseBody);
+        List<JSONObject> rows = (List<JSONObject>) dupObject.get("rows");
+        int count = 0;
+        for (JSONObject row : rows) {
+            if (count % size == rank) {
+                String query_dupKey = "key=%22" + (String) row.get("key") + "%22";
+//            int value = Integer.parseInt((String) row.get("value"));
+                String query_key = String.format("%s", query_dupKey, charset);
+                URLConnection connection_ = new URL(url_dupKey + query_key).openConnection();
+                JSONObject dup_tweet = (JSONObject) parser.parse(new InputStreamReader(connection_.getInputStream()));
+                List<JSONObject> tweet_rows = (List<JSONObject>) dup_tweet.get("rows");
+                for (int i = 0; i < tweet_rows.size() - 1; i++) {
+                    String id = (String) tweet_rows.get(i).get("id");
+                    try {
+                        Tweet tweet = db.get(Tweet.class, id);
+                        db.delete(tweet);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             count++;
         }

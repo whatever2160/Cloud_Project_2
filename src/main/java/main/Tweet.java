@@ -42,12 +42,10 @@ public class Tweet extends CouchDbDocument {
     	this.coordinate_x = tweet.getCoordinate_x();
     	this.coordinate_y = tweet.getCoordinate_y();
 		this.language = tweet.getLanguage();
-		if (tweet.getTweet_id() != null) {
-			this.tweet_id = getTweet_id();
-		}
+		this.tweet_id = tweet.getTweet_id();
 		this.sentiment = tweet.getSentiment();
 		this.sa2_name11 = tweet.getSa2_name11();
-		this.sa2_code11 = tweet.getMb_code11();
+		this.sa2_code11 = tweet.getSa2_code11();
 	}
 
 	public String getContent() {
@@ -94,9 +92,9 @@ public class Tweet extends CouchDbDocument {
 
     public void setLanguage(String lang) { this.language = language; }
 
-    public String getMb_code11() { return sa2_code11; }
+    public String getSa2_code11() { return sa2_code11; }
 
-    public void setMb_code11(String mb_code11) { this.sa2_code11 = mb_code11; }
+    public void setSa2_code11(String sa2_code11) { this.sa2_code11 = sa2_code11; }
 
     public String getSa2_name11() { return sa2_name11; }
 
