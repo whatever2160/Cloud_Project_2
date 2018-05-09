@@ -1,0 +1,12 @@
+- name: sudo apt install unzip
+  shell: "sudo apt install unzip -y"
+  ignore_errors: yes
+
+
+- name: sudo wget https://github.com/zeyuzhangwing/Cloud_Project_2/archive/master.zip
+  shell: "sudo wget https://github.com/zeyuzhangwing/Cloud_Project_2/archive/master.zip"
+  ignore_errors: yes
+
+- name: unzip master.zip
+  shell: "unzip master.zip"
+  ignore_errors: yes

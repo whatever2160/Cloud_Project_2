@@ -1,0 +1,9 @@
+- name: apache innitialisation
+  shell: "sudo apt-get update"
+  shell: "sudo apt-get install apache2 -y"
+  shell: "sudo enable ufw -y"
+  shell: "sudo ufw allow 'Apache Full'"
+  shell: "sudo ufw allow 22"
+  shell: "sudo apt-get install php -y"
+  shell: "sudo apt-get install libapache2-mod-php -y"
+  ignore_errors: yes

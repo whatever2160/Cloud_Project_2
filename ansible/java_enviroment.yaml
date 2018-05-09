@@ -1,0 +1,31 @@
+- name: sudo apt-get install default-jre -y
+  shell: "sudo apt-get install default-jre -y"
+  ignore_errors: yes
+
+- name: sudo apt-get install gcj-5-jre-headless -y
+  shell: "sudo apt-get install gcj-5-jre-headless -y"
+  ignore_errors: yes
+
+- name: sudo apt-get install openjdk-8-jre-headless -y
+  shell: "sudo apt-get install openjdk-8-jre-headless -y"
+  ignore_errors: yes
+
+- name: sudo apt-get install gcj-4.8-jre-headless -y
+  shell: "sudo apt-get install gcj-4.8-jre-headless -y"
+  ignore_errors: yes
+
+- name: sudo apt-get install gcj-4.9-jre-headless -y
+  shell: "sudo apt-get install gcj-4.9-jre-headless -y"
+  ignore_errors: yes
+
+- name: sudo apt-get install openjdk-9-jre-headless -y
+  shell: "sudo apt-get install openjdk-9-jre-headless -y"
+  ignore_errors: yes
+
+- name: sudo wget https://jaist.dl.sourceforge.net/project/mpjexpress/releases/mpj-v0_44.tar.gz
+  shell: "sudo wget https://jaist.dl.sourceforge.net/project/mpjexpress/releases/mpj-v0_44.tar.gz"
+  ignore_errors: yes
+
+- name: tar -xvf mpj-v0_44.tar.gz
+  shell: "tar -xvf mpj-v0_44.tar.gz"
+  ignore_errors: yes

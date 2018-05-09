@@ -1,0 +1,11 @@
+  - name: install python3
+    shell: "sudo apt-get install python3 -y"
+    ignore_errors: yes
+
+  - name: install mpi4py for python3
+    shell: "sudo apt-get install python3-mpi4py -y"
+    ignore_errors: yes
+
+  - name: install twitter for python
+    shell: "sudo apt-get install python-twitter -y"
+    ignore_errors: yes

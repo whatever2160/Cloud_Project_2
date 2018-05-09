@@ -1,0 +1,8 @@
+- name: Get current kernel
+  shell: "uname -r"
+  ignore_errors: yes
+  register: current_kernel
+
+- name: innitialise couchdb (masternode)
+  shell: "sudo docker run --name couch_master -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=admin -e NODENAME=115.146.95.253 -v :/couchdb/data -p 5984:5984 -p 4369:4369 -p 5986:5986 -p 9100-9200:9100-9200 -d couchdb:2.1.1"
+  ignore_errors: yes
