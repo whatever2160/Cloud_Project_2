@@ -15,9 +15,9 @@ class AFINNWords {
 	
 	private static Map<String, Integer> getAFinnWords() {
 		try {
-			//URI AFINNURI = AFINNWords.class.getResource(AFINN_FILE).toURI();
-			Path path = Paths
-					.get("/Users/yaozican/IdeaProjects/Cloud_Project_2/out/production/resources/AFINN-111.txt");
+//			URI AFINNURI = AFINNWords.class.getResource(AFINN_FILE).toURI();
+//            Path path = Paths.get(AFINNURI);
+			Path path = Paths.get("/home/ubuntu/Cloud_Project_2/src/main/resources/AFINN-111.txt");
 			return wordsAndSentiments = Files.lines(path)
 				.map(l -> l.split("\\t"))
 				.collect(Collectors.toMap(l -> l[0], l -> Integer.valueOf(l[1]))

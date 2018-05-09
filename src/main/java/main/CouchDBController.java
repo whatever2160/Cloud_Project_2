@@ -86,10 +86,11 @@ public class CouchDBController {
         Double coordinate_X = Double.parseDouble(tweet.getCoordinate_x());
         Double coordinate_Y = Double.parseDouble(tweet.getCoordinate_y());
         Point point = new Point(coordinate_X, coordinate_Y);
+        System.out.println("Setting Suburb...");
         for (Suburb suburb : suburbs) {
             if (suburb.isInPolygon(point)) {
-                System.out.println("~~~~~");
-                System.out.println(suburb.getSA2_CODE11() + " " + suburb.getSA2_NAME11());
+//                System.out.println("~~~~~");
+//                System.out.println(suburb.getSA2_CODE11() + " " + suburb.getSA2_NAME11());
                 tweet.setSa2_code11(suburb.getSA2_CODE11());
                 tweet.setSa2_name11(suburb.getSA2_NAME11());
             }
@@ -138,9 +139,9 @@ public class CouchDBController {
     public static void deDuplicate (CouchDbConnector db, int rank, int size) throws Exception {
         String charset = java.nio.charset.StandardCharsets.UTF_8.name();
         String url_dupList
-                = "http://115.146.93.244:5984/processed_test/_design/dup/_list/mylist/count?group=true";
+                = "http://115.146.93.244:5984/processed_melbourne_tweets/_design/dup/_list/mylist/count?group=true";
         String url_dupKey
-                = "http://115.146.93.244:5984/processed_test/_design/dup/_view/count?reduce=false&";
+                = "http://115.146.93.244:5984/processed_melbourne_tweets/_design/dup/_view/count?reduce=false&";
 
         URLConnection connection = new URL(url_dupList).openConnection();
         connection.setRequestProperty("Accept-Charset", charset);

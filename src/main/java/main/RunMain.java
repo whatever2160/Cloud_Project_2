@@ -29,10 +29,11 @@ public class RunMain {
             List<CouchDbConnector> dbs = connect();
             List<Suburb> suburbs = getSuburbs();
 
-
+            //deduplicate
+            CouchDBController.deDuplicate(dbs.get(1), RANK, SIZE);
             //Process the tweets in multi process
             CouchDBController.processTweets_(dbs.get(0), suburbs, dbs.get(1), RANK, SIZE);
-            CouchDBController.deDuplicate(dbs.get(1), RANK, SIZE);
+
             //single process
             //CouchDBController.processTweets(dbs.get(0), suburbs, dbs.get(1));
         }
@@ -64,7 +65,7 @@ public class RunMain {
                 .creatConnection(httpClient, "melbourne_melbourne");
 
         CouchDbConnector db2 = CouchDBController
-                .creatConnection(httpClient, "processed_test");
+                .creatConnection(httpClient, "processed_melbourne_tweets");
 
         List<CouchDbConnector> dbs = new ArrayList<>();
         dbs.add(db);
@@ -78,8 +79,8 @@ public class RunMain {
     public static List<Suburb> getSuburbs() throws Exception{
 //        URI MELGEOURI = RunMain.class.getResource("/Melb_SA2.geojson").toURI();
 //        System.out.println(MELGEOURI);
-        Path path = Paths
-                .get("/Users/yaozican/IdeaProjects/Cloud_Project_2/out/production/resources/Melb_SA2.geojson");
+        Path path = Paths.get("/home/ubuntu/Cloud_Project_2/src/main/resources/Melb_SA2.geojson");
+//        Path path = Paths.get(MELGEOURI);
         InputStream inputStream = new FileInputStream(path.toFile());
         List<Suburb> suburbs = GeoParser.createSuburb(inputStream);
         return suburbs;
