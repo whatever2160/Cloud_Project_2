@@ -79,7 +79,7 @@ public class RunMain {
     public static List<Suburb> getSuburbs() throws Exception{
 //        URI MELGEOURI = RunMain.class.getResource("/Melb_SA2.geojson").toURI();
 //        System.out.println(MELGEOURI);
-        Path path = Paths.get("/home/ubuntu/Cloud_Project_2/src/main/resources/Melb_SA2.geojson");
+        Path path = Paths.get("/home/ubuntu/Cloud_Project_2-master/src/main/resources/Melb_SA2.geojson");
 //        Path path = Paths.get(MELGEOURI);
         InputStream inputStream = new FileInputStream(path.toFile());
         List<Suburb> suburbs = GeoParser.createSuburb(inputStream);
