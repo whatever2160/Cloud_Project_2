@@ -21,8 +21,8 @@ body{overflow-y: auto;}
 	  /*border: 1px solid #CCC;*/
 	  margin: 20px auto;
 		border-radius: 25px;
-
 	}
+	
 	#map {
 		border-radius: 25px;
 	}

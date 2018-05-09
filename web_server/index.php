@@ -1,3 +1,7 @@
+<?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Credentials: true")
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -5,15 +9,16 @@
     <title>Mashups with google.maps.Data</title>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-
   <body>
-
   <div class="wrapper">
     <header class="header">
     <br>
-      <h1> This is the Topic name </h1>
+      <h1> Tweet Analysis </h1>
     </header> <!-- .header-->
     <br><br>
+      <div id ="tag1" style="font-weight:150;font-size: 40px;color: #281328;text-align: center; display:none"> Sentiment Analysis </div>
+      <div id ="tag2" style="font-weight:150;font-size: 40px;color: #281328;text-align: center; display:none"> Income </div>
+      <div id ="tag3" style="font-weight:150;font-size: 40px;color: #281328;text-align: center; display:none"> Population </div>
     <!-- Content -->
     <div class="content-home">
     <br>
@@ -23,8 +28,8 @@
         <button id ="Income" onclick="showIncome(this.id)"> Income </button>
 				<button id = "Pop" onclick="showIncome(this.id)"> Pop</button>
 				<button onclick="draw()">Chart comparison</button>
-				<button onclick="clear()"> Clear Table</button>
       </div>
+
       <div id="legend">
         <div id="census-min">min</div>
         <div class="color-key"><span id="data-caret">&#x25c6;</span></div>
@@ -60,29 +65,19 @@
 			//Array for later chart
 			var incdata = new Array();
 			var Score= new Array();
-function clear()
-{
-	Score= [];
-	incdata = [];
-}
-function draw()
-{
 
-	google.charts.load('visualization', '1', {'packages':['corechart']});
-	google.charts.setOnLoadCallback(drawChart);
-
-}
+      function draw(){
+        	google.charts.load('visualization', '1', {'packages':['corechart']});
+        	google.charts.setOnLoadCallback(drawChart);
+      }
 
       function drawChart() {
-
 				var maxM = -9999999;
 				var maxV = -9999999;
-				if(Score.length == 0 || incdata.length == 0)
-				{
+				if(Score.length == 0 || incdata.length == 0){
 					 window.alert("Please load data first");
 				}
-				else
-				{
+				else{
 						document.getElementById('chart_div').style.display = 'block';
 						arr = [];
 						Score.forEach(function(v,i){
@@ -91,12 +86,10 @@ function draw()
 						obj.meta = v;
 						obj.value = incdata[i];
 
-						if(obj.meta > maxM)
-						{
+						if(obj.meta > maxM){
 							maxM= obj.meta;
 						}
-						if(obj.value > maxV)
-						{
+						if(obj.value > maxV){
 							maxV = obj.value;
 						}
 						arr.push(obj);
@@ -131,19 +124,23 @@ function draw()
 
   }
 //---- get the income into map------
-    function showIncome(id)
-    {
+    function showIncome(id){
 			//clearCensusData();
 			smallest = Number.MAX_VALUE;
 			biggest = -Number.MAX_VALUE;
 			getVar="";
 				//clearCensusData(map);
-				if(id == "Income")
-				{
+				if(id == "Income"){
 					getVar="Income";
+          document.getElementById('tag1').style.display = 'none';
+          document.getElementById('tag2').style.display = 'block';
+          document.getElementById('tag3').style.display = 'none';
 				}
 				else if(id == "Pop") {
 						getVar="Pop";
+            document.getElementById('tag1').style.display = 'none';
+            document.getElementById('tag2').style.display = 'none';
+            document.getElementById('tag3').style.display = 'block';
 				}
 				getBoundary();
 				loadMapShapes();
@@ -170,6 +167,9 @@ function draw()
 		}
 // ---- used to load the sentiment -----------
     function myMap() {
+      	document.getElementById('tag1').style.display = 'block';
+        document.getElementById('tag2').style.display = 'none';
+        document.getElementById('tag3').style.display = 'none';
 			clearCensusData();
 			smallest = Number.MAX_VALUE;
 			biggest = -Number.MAX_VALUE;
@@ -185,8 +185,7 @@ function draw()
 
       } //-- end of loading mymap function -----------------------------
 
-			function setvalue()
-			{
+			function setvalue(){
 				setTimeout(function() {
 					 map.data.forEach(function(feature) {
 						 for (var i = 0; i < key.length; i++)	{
@@ -241,24 +240,22 @@ function draw()
 //---------------- lode data from coachdb ------------------------
       function loadTweetData(key) {
       	// load the requested getVar from the census API (using local copies)
-      	var tweetData =  <?php
-      					$ch = curl_init();
-      					curl_setopt($ch, CURLOPT_URL,
-      					'http://115.146.93.244:5984/processed_melbourne_tweets/_design/sum_/_view/sentiment?group=true');
-      					curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-      					curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      					curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-      						'Content-type: application/json',
-      						'Accept: */*'
-      					));
-      					curl_setopt($ch, CURLOPT_USERPWD, 'admin:admin');
-      					$response = curl_exec($ch);
-      					echo $response;
-      					curl_close($ch);
-      					?>;
+//---------------the       header('Access-Control-Allow-Origin: *'); is not working -------
+  url = "http://115.146.93.244:5984/processed_melbourne_tweets/_design/sum_/_view/sentiment?group=true";
+              var tweetData= $.ajax({
+              url: url,
+              user: "admin",
+              pass: "admin",
+              dataType: 'json',
+              contentType: "application/json; charset=utf-8",
+              success: ( function(Response){ console.log(26, 'response is: ',
+              Response) } ),
+              error: function(XMLHttpRequest, textStatus,
+              errorThrown){alert("Error"); }
+              });
+
       	var data = tweetData.rows;
-        if(data != null)
-        {
+        if(data != null)  {
       	   for(var i = 0; i < data.length; i++) {
       					var obj = data[i];
       					 key[i] = obj;
@@ -275,14 +272,13 @@ function draw()
               setlabel();
             }
             else {
-              window.alert("No file loaded");
+              window.alert("No data loaded");
               map.data.loadGeoJson('./Mel_with_income.geojson', { idPropertyName: 'STATE' });
             }
 
       		}
 
-function setlabel()
-{
+function setlabel(){
 
 	document.getElementById('census-min').textContent =
 	smallest.toLocaleString();
@@ -292,8 +288,6 @@ function setlabel()
 
 // ------------ set color for -----------------
       function styleFeature(feature) {
-
-
 
         var low = [5, 69, 54];  // color of smallest datum
         var high = [151, 83, 34];   // color of largest datum
@@ -325,12 +319,9 @@ function setlabel()
           visible: showRow
         };
       }
-
       	</script>
 
-
-
-				<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOyHhybVKpBWr6c27HmL3qa1cONaAhwFs&callback=firstMap"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOyHhybVKpBWr6c27HmL3qa1cONaAhwFs&callback=firstMap"></script>
 
   </body>
 </html>
