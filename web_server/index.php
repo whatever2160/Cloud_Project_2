@@ -6,7 +6,7 @@ header("Access-Control-Allow-Credentials: true")
 <html>
   <head>
     <link href="style1.css" rel="stylesheet">
-    <title>Mashups with google.maps.Data</title>
+    <title>Melbourne tweetw sentiment analysis</title>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <body>
@@ -31,9 +31,9 @@ header("Access-Control-Allow-Credentials: true")
       </div>
 
       <div id="legend">
-        <div id="census-min">min</div>
+        <div id="min">min</div>
         <div class="color-key"><span id="data-caret">&#x25c6;</span></div>
-        <div id="census-max">max</div>
+        <div id="max">max</div>
       </div>
     </div>
     <div id="data-box" class="nicebox">
@@ -102,14 +102,12 @@ header("Access-Control-Allow-Credentials: true")
 					}));
 
 					var options = {
-						title: 'Income vs. Happiness comparison',
+						title: getVar+' vs. Happiness comparison',
 						hAxis: {title: 'Happiness', minValue: 0, maxValue: (maxM+10)},
-						vAxis: {title: 'Income', minValue: 0, maxValue: maxV},
+						vAxis: {title:  getVar, minValue: 0, maxValue: maxV},
 						legend: 'none'
 					};
-
 					var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-
 					chart.draw(data, options);
 				}
 		}
@@ -117,7 +115,7 @@ header("Access-Control-Allow-Credentials: true")
     function firstMap(){
       map= new google.maps.Map(document.getElementById("map"), {
       zoom: 8,
-      center: {lat: -36.686043, lng: 143.580322},
+      center: {lat: -37.8136, lng: 144.9631},
       scrollwheel: true
     });
     loadMapShapes(map);
@@ -137,16 +135,16 @@ header("Access-Control-Allow-Credentials: true")
           document.getElementById('tag3').style.display = 'none';
 				}
 				else if(id == "Pop") {
-						getVar="Pop";
-            document.getElementById('tag1').style.display = 'none';
-            document.getElementById('tag2').style.display = 'none';
-            document.getElementById('tag3').style.display = 'block';
+					getVar="Pop";
+          document.getElementById('tag1').style.display = 'none';
+          document.getElementById('tag2').style.display = 'none';
+          document.getElementById('tag3').style.display = 'block';
 				}
-				getBoundary();
-				loadMapShapes();
-				map.data.setStyle(styleFeature);
-				map.data.addListener('mouseover', mouseInToRegion);
-				map.data.addListener('mouseout', mouseOutOfRegion);
+    			getBoundary();
+    			loadMapShapes();
+    			map.data.setStyle(styleFeature);
+    			map.data.addListener('mouseover', mouseInToRegion);
+    			map.data.addListener('mouseout', mouseOutOfRegion);
     }
 		function getBoundary(feature){
 			var a =0;
@@ -167,35 +165,22 @@ header("Access-Control-Allow-Credentials: true")
 		}
 // ---- used to load the sentiment -----------
     function myMap() {
-      	document.getElementById('tag1').style.display = 'block';
+        document.getElementById('tag1').style.display = 'block';
         document.getElementById('tag2').style.display = 'none';
         document.getElementById('tag3').style.display = 'none';
-			clearCensusData();
-			smallest = Number.MAX_VALUE;
-			biggest = -Number.MAX_VALUE;
-				getVar="Score";
-				loadMapShapes();
-      	loadTweetData(key,map);
-      		//var data = new Array();
-  			 setvalue();
+        clearCensusData();
+        smallest = Number.MAX_VALUE;
+        biggest = -Number.MAX_VALUE;
+        getVar="Score";
+        loadMapShapes();
+        loadTweetData(key,map);
 
-      		map.data.setStyle(styleFeature);
-      		map.data.addListener('mouseover', mouseInToRegion);
-      		map.data.addListener('mouseout', mouseOutOfRegion);
+        map.data.setStyle(styleFeature);
+        map.data.addListener('mouseover', mouseInToRegion);
+        map.data.addListener('mouseout', mouseOutOfRegion);
 
       } //-- end of loading mymap function -----------------------------
 
-			function setvalue(){
-				setTimeout(function() {
-					 map.data.forEach(function(feature) {
-						 for (var i = 0; i < key.length; i++)	{
-							 if(key[i].key == feature.getProperty("SA2_MAINCODE_2011")){
-									 feature.setProperty("Score",key[i].value);
-
-								 }}});
-					 }, 500);
-
-			}
 // ---- clear the date --------------------
       function clearCensusData(feature) {
 				map.data.forEach(function (feature) {
@@ -205,17 +190,7 @@ header("Access-Control-Allow-Credentials: true")
             }
 //-------------------load the melbourne SA2 suburb sape based on geojson---------------
       function loadMapShapes() {
-
-
 				map.data.loadGeoJson('./Mel_with_income.geojson', { idPropertyName: 'STATE' });
-      // load melbourne geojson file localy as the suburb dont change
-
-
-      // waitting for extra feature add on if there have any
-    //google.maps.event.addListenerOnce(map.data, 'addfeature', function() {
-    //google.maps.event.trigger(document.getElementById('score_value'),
-      //     'change');
-    //  });
     }
 // ------ mouse move to the Polygon-----------
       function mouseInToRegion(e) {
@@ -240,54 +215,52 @@ header("Access-Control-Allow-Credentials: true")
 //---------------- lode data from coachdb ------------------------
       function loadTweetData(key) {
       	// load the requested getVar from the census API (using local copies)
-//---------------the       header('Access-Control-Allow-Origin: *'); is not working -------
-  url = "http://115.146.93.244:5984/processed_melbourne_tweets/_design/sum_/_view/sentiment?group=true";
-              var tweetData= $.ajax({
-              url: url,
-              user: "admin",
-              pass: "admin",
-              dataType: 'json',
-              contentType: "application/json; charset=utf-8",
-              success: ( function(Response){ console.log(26, 'response is: ',
-              Response) } ),
-              error: function(XMLHttpRequest, textStatus,
-              errorThrown){alert("Error"); }
-              });
-
-      	var data = tweetData.rows;
-        if(data != null)  {
-      	   for(var i = 0; i < data.length; i++) {
-      					var obj = data[i];
-      					 key[i] = obj;
-								 Score[i] = key[i].value;
-    					 if (key[i].value <smallest){
-      						 smallest =key[i].value;
-      					}
-    					 if(key[i].value >biggest) {
-      						 biggest = key[i].value;
-      					 }
-
-      				}
-
-              setlabel();
-            }
-            else {
-              window.alert("No data loaded");
-              map.data.loadGeoJson('./Mel_with_income.geojson', { idPropertyName: 'STATE' });
-            }
-
+        var tweetData;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://115.146.93.244:5984/processed_melbourne_tweets/_design/sum_/_view/sentiment?group=true');
+        xhr.onload = function() {
+        tweetData = JSON.parse(xhr.responseText);
+        var data = tweetData.rows;
+         if(data != null){
+            for(var i = 0; i < data.length; i++) {
+                  //key store for later use
+                  key[i] = data[i];
+                  Score[i] = key[i].value;
+                if (key[i].value <smallest){
+                    smallest =key[i].value;
+                 }
+                if(key[i].value >biggest) {
+                    biggest = key[i].value;
+                  }
+                  setTimeout(function() {
+          					 map.data.forEach(function(feature) {
+          						 for (var i = 0; i < key.length; i++)	{
+          							 if(key[i].key == feature.getProperty("SA2_MAINCODE_2011")){
+          									 feature.setProperty("Score",key[i].value); }}});
+          					 }, 500);
+               }
+               setlabel();
+               }
+               else {
+                 window.alert("No data loaded");
+                 map.data.loadGeoJson('./Mel_with_income.geojson', { idPropertyName: 'STATE' });
+               }};
+      xhr.send();
       		}
 
-function setlabel(){
+function setlabel()
+{
 
-	document.getElementById('census-min').textContent =
+	document.getElementById('min').textContent =
 	smallest.toLocaleString();
-	document.getElementById('census-max').textContent =
+	document.getElementById('max').textContent =
 	biggest.toLocaleString();
 }
 
 // ------------ set color for -----------------
       function styleFeature(feature) {
+
+
 
         var low = [5, 69, 54];  // color of smallest datum
         var high = [151, 83, 34];   // color of largest datum
@@ -319,9 +292,13 @@ function setlabel(){
           visible: showRow
         };
       }
+
+
       	</script>
 
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOyHhybVKpBWr6c27HmL3qa1cONaAhwFs&callback=firstMap"></script>
+
+
+				<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOyHhybVKpBWr6c27HmL3qa1cONaAhwFs&callback=firstMap"></script>
 
   </body>
 </html>

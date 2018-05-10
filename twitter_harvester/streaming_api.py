@@ -69,15 +69,14 @@ def main(argv):
     twitter_stream = twitter.TwitterStream(auth=t.auth)  # Reference the self.auth parameter
 
     melbourne = "144.35,-38.26,145.30,-37.30"
-    stream = twitter_stream.statuses.filter(locations=melbourne)
+    stream = twitter_stream.statuses.filter(locations=melbourne)# Use the bounding box of Melbourne as filter parameter.
 
-    # For illustrative purposes, when all else fails, search for Justin Bieber
-    # and something is sure to turn up (at least, on Twitter)
     db = setup_db(hostname=hostname, port=port, db=db)
     for tweet in stream:
         if "text" in tweet.keys():
             if "coordinates" in tweet.keys() and tweet['coordinates'] is not None:
                 if 144.35 < tweet['coordinates']['coordinates'][0] < 145.30 and -38.26 < tweet['coordinates']['coordinates'][1] < -37.30:
+                    # Futher filtering for tweets with coorinates and in Melbourne.
                     try:
                         print(tweet['text'])
                         save_to_db(tweet, db)
