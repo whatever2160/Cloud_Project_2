@@ -10,6 +10,6 @@
 #sudo apt-get install libapache2-mod-php
 
 #-----setup directory-------
-sudo cp -R ../web_server /var/www/
-sudo rm -R html
-sudo cp -R web_server html
+sudo cp -R /home/ubuntu/Cloud_Project_2-master/web_server /var/www/
+sudo rm -R /var/www/html
+sudo cp -R /var/www/web_server /var/www/html
