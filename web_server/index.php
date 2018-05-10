@@ -6,7 +6,7 @@ header("Access-Control-Allow-Credentials: true")
 <html>
   <head>
     <link href="style1.css" rel="stylesheet">
-    <title>Mashups with google.maps.Data</title>
+    <title>Melbourne tweets sentiment analysis</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <body>
