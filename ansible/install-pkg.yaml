@@ -2,21 +2,21 @@
   sudo: yes
 
   tasks:
-    - import_tasks: /etc/ansible/docker.yaml
-    - import_tasks: /etc/ansible/crawler_pkg_install.yaml
-    - import_tasks: /etc/ansible/apache.yaml
-    - import_tasks: /etc/ansible/java_enviroment.yaml
+    # - import_tasks: /etc/ansible/docker.yaml
+    # - import_tasks: /etc/ansible/crawler_pkg_install.yaml
+    # - import_tasks: /etc/ansible/apache.yaml
+    # - import_tasks: /etc/ansible/java_enviroment.yaml
     - import_tasks: /etc/ansible/get_files_from_git.yaml
 
-- hosts: server_node
-  sudo: yes
-
-  tasks:
-    - import_tasks: /etc/ansible/masternode_initialisation.yaml
-
-
-- hosts: crawler_node
-  sudo: yes
-
-  tasks:
-    - import_tasks: /etc/ansible/cluster_node_1_initialisation.yaml
+# - hosts: server_node
+#   sudo: yes
+#
+#   tasks:
+#     - import_tasks: /etc/ansible/masternode_initialisation.yaml
+#
+#
+# - hosts: crawler_node
+#   sudo: yes
+#
+#   tasks:
+#     - import_tasks: /etc/ansible/cluster_node_1_initialisation.yaml
