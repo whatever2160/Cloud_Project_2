@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-import couchdb
+
 import sys
-import twitter
+sys.path.append("/couchdb")
+sys.path.append("/twitter")
 from oauth_login import oauth_login
 import getopt
+import couchdb
+import twitter
 def setup_db(hostname, port, db):
     # input the username of administrator
     admin_name = "admin"
