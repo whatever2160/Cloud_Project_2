@@ -9,3 +9,7 @@
   - name: install twitter for python
     shell: "sudo apt-get install python-twitter -y"
     ignore_errors: yes
+
+  - name: install twitter for python
+    shell: "sudo apt-get install python-couchdb -y"
+    ignore_errors: yes
