@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Credentials: true")
@@ -910,4 +909,3 @@ function setlabel(){
 
   </body>
 </html>
->>>>>>> b23466e2ae0e5bb727143559af1c52e7bf87ba0a
