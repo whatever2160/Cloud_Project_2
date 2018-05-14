@@ -24,7 +24,7 @@ The bash script use default option (127.0.0.1:5984 'tweet')
 ### Web Application
 `bash bash_script/setup_server`
 
-### Build CouchDB Cluster
+### Building CouchDB Cluster
 `bash bash_script/setup_cluster.sh`
 
 ### Ansible script
