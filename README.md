@@ -3,10 +3,15 @@
 ## Implementation
 
 ### Twitter Harvester
-`nohup python ../twitter_harvester/streaming_api.py -h <dbhostname> -p <dbport> -d <db> &> twt_harvester.out &`
+
+#### From Api
+`nohup python ./twitter_harvester/streaming_api.py -h <dbhostname> -p <dbport> -d <db> &> twt_harvester.out &`
 or 
 `bash bash_script/run_twt_harvester.sh`
 The bash script use default option (127.0.0.1:5984 'tweet')
+
+#### From JSON file
+`python ./twitter_harvester/read_json2couch.py <filepath>`
 
 ### Data processor
 
